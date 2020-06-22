@@ -85,7 +85,15 @@ self.addEventListener('fetch', function (event) {
               .catch(function (err) {
                 return caches.open(CACHE_STATIC_NAME)
                   .then(function (cache) {
-                    return cache.match('/offline.html');
+                    /**
+                     * Retorna a página de fallback somente nos casos que algum arquivo do help page não conseguir ser 
+                     * requisitado nem no cache e nem na rede, pois assim evita que caso um arquivo .css não seja requisitado 
+                     * com sucesso no cache e nem na rede, a nossa estratégia retorna a página de fallback do nosso cache para a
+                     * requisição do arquivo 
+                     */
+                    if(event.request.url.indexOf('/help') > -1){
+                      return cache.match('/offline.html');
+                    }
                   });
               });
           }
