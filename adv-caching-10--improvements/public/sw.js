@@ -71,6 +71,7 @@ self.addEventListener('activate', function (event) {
           if (key !== CACHE_STATIC_NAME && key !== CACHE_DYNAMIC_NAME) {
             console.log('[Service Worker] Removing old cache.', key);
             return caches.delete(key);
+            
           }
         }));
       })

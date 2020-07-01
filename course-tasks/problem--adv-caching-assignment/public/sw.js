@@ -117,6 +117,12 @@ self.addEventListener('fetch', (event) => {
               })
               .catch( (err) => {
                 //page 404 fallback
+                return cache.open(CACHE_STATIC_NAME)
+                  .then( (cache) => {
+                    if(event.request.headers.get('accept').inludes('text/html')){
+                      return cache.match('/offline.html')
+                    }
+                  })
               });
           }
         })
